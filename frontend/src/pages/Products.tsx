@@ -1,12 +1,17 @@
 import MainLayout from "../layouts/MainLayout";
+import Navbar from "../components/Navbar";
+import ProductForm from "../components/ProductForm";
+import ProductTable from "../components/ProductTable";
 
 function Products() {
   return (
     <MainLayout>
 
-      <h1 className="text-3xl font-bold">
-        Products Page
-      </h1>
+      <Navbar />
+
+      <ProductForm />
+
+      <ProductTable />
 
     </MainLayout>
   );
