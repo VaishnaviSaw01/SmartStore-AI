@@ -10,13 +10,33 @@ function Sidebar() {
 
       <nav className="flex flex-col gap-5 text-lg">
 
-        <Link to="/">Dashboard</Link>
+        <Link
+  to="/"
+  className="hover:text-blue-400 transition"
+>
+  Dashboard
+</Link>
 
-        <Link to="/products">Products</Link>
+        <Link
+  to="/products"
+  className="hover:text-blue-400 transition"
+>
+  Products
+</Link>
 
-        <Link to="/analytics">Analytics</Link>
+        <Link
+  to="/analytics"
+  className="hover:text-blue-400 transition"
+>
+  Analytics
+</Link>
 
-        <Link to="/ai-insights">AI Insights</Link>
+        <Link
+  to="/ai-insights"
+  className="hover:text-blue-400 transition"
+>
+  AI Insights
+</Link>
 
       </nav>
 

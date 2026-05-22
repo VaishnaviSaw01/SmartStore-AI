@@ -27,9 +27,10 @@ function Products() {
         setProducts={setProducts}
       />
 
-      <ProductTable
-        products={products}
-      />
+     <ProductTable
+  products={products}
+  setProducts={setProducts}
+/>
 
     </MainLayout>
   );

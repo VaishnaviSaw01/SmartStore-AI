@@ -8,9 +8,20 @@ type Product = {
 
 type Props = {
   products: Product[];
+  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
 };
 
-function ProductTable({ products }: Props) {
+function ProductTable({ products, setProducts }: Props) {
+
+  const handleDelete = (id: number) => {
+
+    const updatedProducts = products.filter(
+      (product) => product.id !== id
+    );
+
+    setProducts(updatedProducts);
+  };
+
   return (
     <div className="bg-white p-6 rounded-2xl shadow">
 
@@ -27,6 +38,7 @@ function ProductTable({ products }: Props) {
             <th>Price</th>
             <th>Category</th>
             <th>Stock</th>
+            <th>Action</th>
 
           </tr>
         </thead>
@@ -53,6 +65,17 @@ function ProductTable({ products }: Props) {
 
               <td>
                 {product.stock}
+              </td>
+
+              <td>
+
+                <button
+                  onClick={() => handleDelete(product.id)}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                >
+                  Delete
+                </button>
+
               </td>
 
             </tr>
