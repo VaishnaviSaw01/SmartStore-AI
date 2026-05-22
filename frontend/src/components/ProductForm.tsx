@@ -1,37 +1,68 @@
-import { useState } from "react";
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-  stock: number;
-};
+import { useEffect, useState } from "react";
+import type { Product } from "../types/product";
 
 type Props = {
   products: Product[];
   setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  editingProduct: Product | null;
+  setEditingProduct: React.Dispatch<
+    React.SetStateAction<Product | null>
+  >;
 };
 
-function ProductForm({ products, setProducts }: Props) {
+function ProductForm({
+  products,
+  setProducts,
+  editingProduct,
+  setEditingProduct,
+}: Props) {
 
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
   const [stock, setStock] = useState("");
 
+  useEffect(() => {
+    if (editingProduct) {
+      setTitle(editingProduct.title);
+      setPrice(editingProduct.price.toString());
+      setCategory(editingProduct.category);
+      setStock(editingProduct.stock.toString());
+    }
+  }, [editingProduct]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newProduct = {
-      id: Date.now(),
-      title,
-      price: Number(price),
-      category,
-      stock: Number(stock),
-    };
+    if (editingProduct) {
 
-    setProducts([...products, newProduct]);
+      const updatedProducts = products.map((product) =>
+        product.id === editingProduct.id
+          ? {
+              ...product,
+              title,
+              price: Number(price),
+              category,
+              stock: Number(stock),
+            }
+          : product
+      );
+
+      setProducts(updatedProducts);
+      setEditingProduct(null);
+
+    } else {
+
+      const newProduct = {
+        id: Date.now(),
+        title,
+        price: Number(price),
+        category,
+        stock: Number(stock),
+      };
+
+      setProducts([...products, newProduct]);
+    }
 
     setTitle("");
     setPrice("");
@@ -43,7 +74,11 @@ function ProductForm({ products, setProducts }: Props) {
     <div className="bg-white p-6 rounded-2xl shadow mb-6">
 
       <h2 className="text-2xl font-bold mb-4">
-        Add Product
+
+        {editingProduct
+          ? "Edit Product"
+          : "Add Product"}
+
       </h2>
 
       <form
@@ -86,7 +121,9 @@ function ProductForm({ products, setProducts }: Props) {
         <button
           className="bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600"
         >
-          Add Product
+          {editingProduct
+            ? "Update Product"
+            : "Add Product"}
         </button>
 
       </form>

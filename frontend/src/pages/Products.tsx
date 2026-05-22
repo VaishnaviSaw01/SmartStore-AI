@@ -4,10 +4,12 @@ import MainLayout from "../layouts/MainLayout";
 import Navbar from "../components/Navbar";
 import ProductForm from "../components/ProductForm";
 import ProductTable from "../components/ProductTable";
+import type { Product } from "../types/product";
+
 
 function Products() {
 
-  const [products, setProducts] = useState([
+  const [products, setProducts] = useState<Product[]>([
     {
       id: 1,
       title: "Wireless Mouse",
@@ -17,6 +19,9 @@ function Products() {
     },
   ]);
 
+  const [editingProduct, setEditingProduct] =
+    useState<Product | null>(null);
+
   return (
     <MainLayout>
 
@@ -25,12 +30,15 @@ function Products() {
       <ProductForm
         products={products}
         setProducts={setProducts}
+        editingProduct={editingProduct}
+        setEditingProduct={setEditingProduct}
       />
 
-     <ProductTable
-  products={products}
-  setProducts={setProducts}
-/>
+      <ProductTable
+        products={products}
+        setProducts={setProducts}
+        setEditingProduct={setEditingProduct}
+      />
 
     </MainLayout>
   );

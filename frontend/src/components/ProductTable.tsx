@@ -1,17 +1,19 @@
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-  stock: number;
-};
-
+import type { Product } from "../types/product";
 type Props = {
   products: Product[];
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  setProducts: React.Dispatch<
+    React.SetStateAction<Product[]>
+  >;
+  setEditingProduct: React.Dispatch<
+    React.SetStateAction<Product | null>
+  >;
 };
 
-function ProductTable({ products, setProducts }: Props) {
+function ProductTable({
+  products,
+  setProducts,
+  setEditingProduct,
+}: Props) {
 
   const handleDelete = (id: number) => {
 
@@ -38,7 +40,7 @@ function ProductTable({ products, setProducts }: Props) {
             <th>Price</th>
             <th>Category</th>
             <th>Stock</th>
-            <th>Action</th>
+            <th>Actions</th>
 
           </tr>
         </thead>
@@ -67,10 +69,21 @@ function ProductTable({ products, setProducts }: Props) {
                 {product.stock}
               </td>
 
-              <td>
+              <td className="flex gap-2 py-2">
 
                 <button
-                  onClick={() => handleDelete(product.id)}
+                  onClick={() =>
+                    setEditingProduct(product)
+                  }
+                  className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600"
+                >
+                  Edit
+                </button>
+
+                <button
+                  onClick={() =>
+                    handleDelete(product.id)
+                  }
                   className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
                 >
                   Delete
