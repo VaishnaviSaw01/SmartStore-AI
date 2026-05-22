@@ -1,15 +1,33 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
+
+const connectDB =
+  require("./config/db");
+
+const authRoutes =
+  require("./routes/authRoutes");
 
 const app = express();
+
+connectDB();
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req,res)=>{
-   res.send("SmartStore AI Running");
+app.use("/api/auth", authRoutes);
+
+app.get("/", (req, res) => {
+  res.send("SmartStore AI Backend Running");
 });
 
-app.listen(5000, ()=>{
-   console.log("Server running on port 5000");
+const PORT =
+  process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+
+  console.log(
+    `Server running on port ${PORT}`
+  );
+
 });
