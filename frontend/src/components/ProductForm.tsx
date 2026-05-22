@@ -89,7 +89,7 @@ function ProductForm({
         <input
           type="text"
           placeholder="Product Name"
-          className="border border-gray-200 p-4 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-blue-400"
+          className="w-full border border-slate-200 rounded-xl px-4 py-3 bg-slate-50 focus:bg-white focus:ring-4 focus:ring-indigo-50 focus:border-indigo-400 transition-all text-sm"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -97,7 +97,7 @@ function ProductForm({
         <input
           type="number"
           placeholder="Price"
-          className="border border-gray-200 p-4 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-blue-400"
+          className="border border-slate-200 p-4 rounded-xl bg-slate-50 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-400 transition-all text-sm"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
@@ -105,7 +105,7 @@ function ProductForm({
         <input
           type="text"
           placeholder="Category"
-          className="border border-gray-200 p-4 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-blue-400"
+          className="border border-slate-200 p-4 rounded-xl bg-slate-50 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-400 transition-all text-sm"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         />
@@ -113,13 +113,17 @@ function ProductForm({
         <input
           type="number"
           placeholder="Stock"
-          className="border border-gray-200 p-4 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-blue-400"
+          className="border border-slate-200 p-4 rounded-xl bg-slate-50 focus:ring-4 focus:ring-indigo-50 focus:border-indigo-400 transition-all text-sm"
           value={stock}
           onChange={(e) => setStock(e.target.value)}
         />
 
         <button
-          className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-4 rounded-2xl hover:scale-105 transition"
+          className="w-full py-3 rounded-xl text-white font-semibold transition-all"
+style={{
+  background:
+    "linear-gradient(135deg, #6366f1, #7c3aed)",
+}}
         >
           {editingProduct
             ? "Update Product"

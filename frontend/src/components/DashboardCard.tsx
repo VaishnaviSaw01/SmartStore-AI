@@ -1,24 +1,40 @@
 type Props = {
   title: string;
   value: string;
+  growth?: string;
 };
 
 function DashboardCard({
   title,
   value,
+  growth,
 }: Props) {
 
   return (
 
-    <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-xl transition duration-300 hover:-translate-y-1">
+    <div className="bg-white p-7 rounded-2xl border border-slate-200 hover:shadow-lg transition-all">
 
-      <h2 className="text-gray-500 text-lg font-medium">
+      <div className="flex justify-between items-start mb-5">
+
+        <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-700 text-xl">
+          📊
+        </div>
+
+        {growth && (
+          <span className="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full">
+            {growth}
+          </span>
+        )}
+
+      </div>
+
+      <p className="text-sm text-slate-500 uppercase mb-2">
         {title}
-      </h2>
-
-      <p className="text-5xl font-extrabold text-blue-500 mt-6">
-        {value}
       </p>
+
+      <h2 className="text-4xl font-bold text-slate-800">
+        {value}
+      </h2>
 
     </div>
 
