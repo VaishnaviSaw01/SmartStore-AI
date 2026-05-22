@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+
 require("dotenv").config();
 
 const connectDB =
@@ -8,17 +9,33 @@ const connectDB =
 const authRoutes =
   require("./routes/authRoutes");
 
-const app = express();
+const productRoutes =
+  require("./routes/productRoutes");
 
+const app = express();
+const aiRoutes =
+  require("./routes/aiRoutes");
 connectDB();
 
 app.use(cors());
 app.use(express.json());
+app.use("/api/ai", aiRoutes);
+app.use(
+  "/api/auth",
+  authRoutes
+);
 
-app.use("/api/auth", authRoutes);
+app.use(
+  "/api/products",
+  productRoutes
+);
 
 app.get("/", (req, res) => {
-  res.send("SmartStore AI Backend Running");
+
+  res.send(
+    "SmartStore AI Backend Running"
+  );
+
 });
 
 const PORT =

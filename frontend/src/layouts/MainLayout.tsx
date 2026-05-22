@@ -4,19 +4,24 @@ type Props = {
   children: React.ReactNode;
 };
 
-function MainLayout({ children }: Props) {
+function MainLayout({
+  children,
+}: Props) {
+
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      
-      {/* Sidebar */}
+
+    <div className="flex bg-[#f8fafc] min-h-screen">
+
       <Sidebar />
 
-      {/* Main Content */}
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-8 overflow-y-auto">
+
         {children}
+
       </main>
 
     </div>
+
   );
 }
 

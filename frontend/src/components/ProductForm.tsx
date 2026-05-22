@@ -89,7 +89,7 @@ function ProductForm({
         <input
           type="text"
           placeholder="Product Name"
-          className="border p-3 rounded-lg"
+          className="border border-gray-200 p-4 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-blue-400"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
@@ -97,7 +97,7 @@ function ProductForm({
         <input
           type="number"
           placeholder="Price"
-          className="border p-3 rounded-lg"
+          className="border border-gray-200 p-4 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-blue-400"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
@@ -105,7 +105,7 @@ function ProductForm({
         <input
           type="text"
           placeholder="Category"
-          className="border p-3 rounded-lg"
+          className="border border-gray-200 p-4 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-blue-400"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         />
@@ -113,13 +113,13 @@ function ProductForm({
         <input
           type="number"
           placeholder="Stock"
-          className="border p-3 rounded-lg"
+          className="border border-gray-200 p-4 rounded-2xl bg-gray-50 focus:ring-2 focus:ring-blue-400"
           value={stock}
           onChange={(e) => setStock(e.target.value)}
         />
 
         <button
-          className="bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600"
+          className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-4 rounded-2xl hover:scale-105 transition"
         >
           {editingProduct
             ? "Update Product"

@@ -25,7 +25,7 @@ function ProductTable({
   };
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow">
+    <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 mt-8">
 
       <h2 className="text-2xl font-bold mb-4">
         Product List
@@ -34,7 +34,7 @@ function ProductTable({
       <table className="w-full">
 
         <thead>
-          <tr className="text-left border-b">
+          <tr className="border-b hover:bg-gray-50 transition">
 
             <th className="py-3">Product</th>
             <th>Price</th>
@@ -75,7 +75,7 @@ function ProductTable({
                   onClick={() =>
                     setEditingProduct(product)
                   }
-                  className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600"
+                  className="bg-yellow-500 text-white px-4 py-2 rounded-xl hover:bg-yellow-600 transition"
                 >
                   Edit
                 </button>
@@ -84,7 +84,7 @@ function ProductTable({
                   onClick={() =>
                     handleDelete(product.id)
                   }
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                  className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition"
                 >
                   Delete
                 </button>
