@@ -1,21 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
 @import "tailwindcss";
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+html {
+  font-size: 17px;
 }
 
-body{
-  background:#f8fafc;
-  font-family:Inter,sans-serif;
+*:not(.rounded-full) {
+  border-radius: 0px !important;
 }
 
-button{
-  cursor:pointer;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-input,
-textarea{
-  outline:none;
+body {
+  background: #f1f5f9;
+  font-family: 'DM Sans', sans-serif;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Sora', sans-serif;
+}
+
+button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+input, textarea {
+  outline: none;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Sidebar scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+/* Smooth page transitions */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: fadeInUp 0.35s ease forwards;
 }

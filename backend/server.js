@@ -3,32 +3,21 @@ const cors = require("cors");
 
 require("dotenv").config();
 
-const connectDB =
-  require("./config/db");
-
-const authRoutes =
-  require("./routes/authRoutes");
-
-const productRoutes =
-  require("./routes/productRoutes");
+const connectDB = require("./config/db");
+const authRoutes = require("./routes/authRoutes");
+const productRoutes = require("./routes/productRoutes");
+const aiRoutes = require("./routes/aiRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
 
 const app = express();
-const aiRoutes =
-  require("./routes/aiRoutes");
 connectDB();
 
 app.use(cors());
 app.use(express.json());
 app.use("/api/ai", aiRoutes);
-app.use(
-  "/api/auth",
-  authRoutes
-);
-
-app.use(
-  "/api/products",
-  productRoutes
-);
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 app.get("/", (req, res) => {
 

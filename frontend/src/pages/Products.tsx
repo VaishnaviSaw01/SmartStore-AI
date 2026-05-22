@@ -1,203 +1,139 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
-
 import Navbar from "../components/Navbar";
+import ProductForm from "../components/ProductForm";
+import ProductTable from "../components/ProductTable";
+import { Skeleton } from "../components/Loader";
+import API from "../services/api";
+import type { Product } from "../types/product";
 
 function Products() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const products = [
-    {
-      name: "Wireless Headphones",
-      sku: "AUD-99-PRO",
-      category: "Electronics",
-      price: "₹12,999",
-      stock: 42,
-      status: "Optimized",
-    },
+  const fetchProducts = async () => {
+    setLoading(true);
+    setErrorMessage("");
+    try {
+      const response = await API.get("/products");
+      setProducts(response.data);
+    } catch (err) {
+      console.error("Fetch products error:", err);
+      setErrorMessage("Could not load catalogue products. Please check server connection.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    {
-      name: "Smart Watch",
-      sku: "ACC-WATCH-02",
-      category: "Accessories",
-      price: "₹8,499",
-      stock: 8,
-      status: "Low Stock",
-    },
-
-    {
-      name: "Bluetooth Speaker",
-      sku: "AUD-LS-WAVE",
-      category: "Electronics",
-      price: "₹5,999",
-      stock: 156,
-      status: "Analyzing",
-    },
-  ];
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
-
     <MainLayout>
-
       <Navbar />
 
-      <main className="p-10">
-
-        <div className="flex justify-between items-center mb-8">
-
+      {/* Summary info bar */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white rounded-2xl p-8 border border-slate-100 shadow-sm gap-6 mb-8">
+        <div className="flex items-center gap-4">
           <div>
-
-            <h2 className="text-4xl font-bold text-slate-800 mb-2">
-              Product Inventory
-            </h2>
-
-            <p className="text-slate-500">
-              Manage all ecommerce products
+            <p className="text-slate-400 text-xs font-medium">Total Products</p>
+            <p
+              style={{ fontFamily: "'Sora', sans-serif" }}
+              className="text-2xl font-bold text-slate-900 mt-0.5"
+            >
+              {loading ? "..." : products.length}
             </p>
-
           </div>
+          <div className="w-px h-10 bg-slate-100" />
+          <div>
+            <p className="text-slate-400 text-xs font-medium">Currently Editing</p>
+            <p className="text-sm font-semibold text-slate-700 mt-1 max-w-[200px] truncate">
+              {editingProduct ? editingProduct.title : "—"}
+            </p>
+          </div>
+        </div>
 
-          <button className="bg-indigo-700 text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition">
-
-            + Add Product
-
+        {editingProduct && (
+          <button
+            onClick={() => setEditingProduct(null)}
+            className="text-xs font-semibold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-4 py-2.5 rounded-xl transition-all"
+          >
+            Cancel Editing
           </button>
+        )}
+      </div>
 
+      {errorMessage && (
+        <div className="bg-red-50 text-red-600 border border-red-100 rounded-2xl px-8 py-5 mb-8 text-sm">
+          {errorMessage}
         </div>
+      )}
 
-        <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
-
-          <div className="overflow-x-auto">
-
-            <table className="w-full">
-
-              <thead className="bg-slate-50 border-b border-slate-200">
-
-                <tr className="text-left">
-
-                  <th className="px-6 py-4 text-sm text-slate-500 uppercase">
-                    Product
-                  </th>
-
-                  <th className="px-6 py-4 text-sm text-slate-500 uppercase">
-                    SKU
-                  </th>
-
-                  <th className="px-6 py-4 text-sm text-slate-500 uppercase">
-                    Category
-                  </th>
-
-                  <th className="px-6 py-4 text-sm text-slate-500 uppercase">
-                    Price
-                  </th>
-
-                  <th className="px-6 py-4 text-sm text-slate-500 uppercase">
-                    Stock
-                  </th>
-
-                  <th className="px-6 py-4 text-sm text-slate-500 uppercase">
-                    AI Status
-                  </th>
-
-                  <th className="px-6 py-4 text-sm text-slate-500 uppercase text-right">
-                    Actions
-                  </th>
-
-                </tr>
-
-              </thead>
-
-              <tbody>
-
-                {products.map((product, index) => (
-
-                  <tr
-                    key={index}
-                    className="border-b border-slate-100 hover:bg-slate-50 transition"
-                  >
-
-                    <td className="px-6 py-5 font-semibold text-slate-800">
-                      {product.name}
-                    </td>
-
-                    <td className="px-6 py-5 text-slate-600">
-                      {product.sku}
-                    </td>
-
-                    <td className="px-6 py-5 text-slate-600">
-                      {product.category}
-                    </td>
-
-                    <td className="px-6 py-5 font-semibold">
-                      {product.price}
-                    </td>
-
-                    <td className="px-6 py-5">
-
-                      <span
-                        className={`font-semibold ${
-                          product.stock < 10
-                            ? "text-red-600"
-                            : "text-slate-700"
-                        }`}
-                      >
-                        {product.stock}
-                      </span>
-
-                    </td>
-
-                    <td className="px-6 py-5">
-
-                      <span
-                        className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                          product.status === "Optimized"
-                            ? "bg-green-100 text-green-700"
-                            : product.status === "Low Stock"
-                            ? "bg-red-100 text-red-700"
-                            : "bg-yellow-100 text-yellow-700"
-                        }`}
-                      >
-
-                        {product.status}
-
-                      </span>
-
-                    </td>
-
-                    <td className="px-6 py-5">
-
-                      <div className="flex justify-end gap-3">
-
-                        <button className="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg hover:bg-indigo-200 transition">
-
-                          Edit
-
-                        </button>
-
-                        <button className="bg-red-100 text-red-700 px-4 py-2 rounded-lg hover:bg-red-200 transition">
-
-                          Delete
-
-                        </button>
-
-                      </div>
-
-                    </td>
-
-                  </tr>
-
-                ))}
-
-              </tbody>
-
-            </table>
-
+      {/* Two-column layout: form + table */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
+        {/* Form panel */}
+        <div className="xl:col-span-1">
+          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <div className="px-8 py-6 border-b border-slate-50">
+              <h3
+                style={{ fontFamily: "'Sora', sans-serif" }}
+                className="font-bold text-slate-900 text-base"
+              >
+                {editingProduct ? "Edit Product" : "Add Product"}
+              </h3>
+              <p className="text-slate-400 text-xs mt-0.5">
+                {editingProduct ? "Modify the product details" : "Create a new catalog item"}
+              </p>
+            </div>
+            <div className="p-8">
+              <ProductForm
+                onSave={fetchProducts}
+                editingProduct={editingProduct}
+                setEditingProduct={setEditingProduct}
+              />
+            </div>
           </div>
-
         </div>
 
-      </main>
-
+        {/* Table panel */}
+        <div className="xl:col-span-2">
+          <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <div className="px-8 py-6 border-b border-slate-50 flex items-center justify-between">
+              <div>
+                <h3
+                  style={{ fontFamily: "'Sora', sans-serif" }}
+                  className="font-bold text-slate-900 text-base"
+                >
+                  Product Catalogue
+                </h3>
+                <p className="text-slate-400 text-xs mt-0.5">
+                  {loading ? "Counting items..." : `${products.length} products listed`}
+                </p>
+              </div>
+            </div>
+            
+            {loading ? (
+              <div className="p-8 space-y-4">
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-14 w-full" />
+                <Skeleton className="h-14 w-full" />
+                <Skeleton className="h-14 w-full" />
+              </div>
+            ) : (
+              <ProductTable
+                products={products}
+                onDelete={fetchProducts}
+                setEditingProduct={setEditingProduct}
+              />
+            )}
+          </div>
+        </div>
+      </div>
     </MainLayout>
-
   );
 }
 

@@ -1,7 +1,7 @@
+/* eslint-disable react-refresh/only-export-components */
 import {
   createContext,
   useContext,
-  useEffect,
   useState,
 } from "react";
 
@@ -13,6 +13,7 @@ type User = {
 type AuthContextType = {
   isLoggedIn: boolean;
   user: User | null;
+  loading: boolean;
   login: (
     token: string,
     user: User
@@ -32,33 +33,23 @@ export function AuthProvider({
 }) {
 
   const [isLoggedIn, setIsLoggedIn] =
-    useState(false);
+    useState<boolean>(() => {
+      const token = localStorage.getItem("token");
+      return !!token;
+    });
 
   const [user, setUser] =
-    useState<User | null>(null);
+    useState<User | null>(() => {
+      const savedUser = localStorage.getItem("user");
+      return savedUser ? JSON.parse(savedUser) : null;
+    });
 
-  useEffect(() => {
-
-    const token =
-      localStorage.getItem("token");
-
-    const savedUser =
-      localStorage.getItem("user");
-
-    if (token && savedUser) {
-
-      setIsLoggedIn(true);
-
-      setUser(JSON.parse(savedUser));
-    }
-
-  }, []);
+  const [loading] = useState(false);
 
   const login = (
     token: string,
     user: User
   ) => {
-
     localStorage.setItem(
       "token",
       token
@@ -70,45 +61,36 @@ export function AuthProvider({
     );
 
     setIsLoggedIn(true);
-
     setUser(user);
   };
 
   const logout = () => {
-
     localStorage.removeItem("token");
-
     localStorage.removeItem("user");
-
     setIsLoggedIn(false);
-
     setUser(null);
   };
 
   return (
-
     <AuthContext.Provider
       value={{
         isLoggedIn,
         user,
+        loading,
         login,
         logout,
       }}
     >
-
       {children}
-
     </AuthContext.Provider>
   );
 }
 
 export function useAuth() {
-
   const context =
     useContext(AuthContext);
 
   if (!context) {
-
     throw new Error(
       "useAuth must be inside provider"
     );
