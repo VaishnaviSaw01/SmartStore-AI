@@ -1,17 +1,51 @@
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
+
+import { useNavigate } from
+  "react-router-dom";
+
+import API from "../services/api";
+
+import { useAuth } from
+  "../context/AuthContext";
 
 function Login() {
 
-  const { login } = useAuth();
-
   const navigate = useNavigate();
 
-  const handleLogin = () => {
+  const { login } = useAuth();
 
-    login();
+  const [email, setEmail] =
+    useState("");
 
-    navigate("/");
+  const [password, setPassword] =
+    useState("");
+
+  const handleLogin = async () => {
+
+    try {
+
+      const response =
+        await API.post(
+          "/auth/login",
+          {
+            email,
+            password,
+          }
+        );
+
+      login(
+        response.data.token,
+        response.data.user
+      );
+
+      navigate("/");
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert("Login failed");
+    }
   };
 
   return (
@@ -29,12 +63,20 @@ function Login() {
             type="email"
             placeholder="Email"
             className="border p-3 rounded-lg"
+            value={email}
+            onChange={(e) =>
+              setEmail(e.target.value)
+            }
           />
 
           <input
             type="password"
             placeholder="Password"
             className="border p-3 rounded-lg"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
           />
 
           <button
