@@ -1,21 +1,16 @@
-const products = [
-  {
-    id: 1,
-    title: "Wireless Mouse",
-    price: 999,
-    category: "Electronics",
-    stock: 20,
-  },
-  {
-    id: 2,
-    title: "Smart Watch",
-    price: 2999,
-    category: "Wearables",
-    stock: 15,
-  },
-];
+type Product = {
+  id: number;
+  title: string;
+  price: number;
+  category: string;
+  stock: number;
+};
 
-function ProductTable() {
+type Props = {
+  products: Product[];
+};
+
+function ProductTable({ products }: Props) {
   return (
     <div className="bg-white p-6 rounded-2xl shadow">
 
